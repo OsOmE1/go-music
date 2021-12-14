@@ -16,11 +16,6 @@ import (
 	"sync"
 )
 
-type Downloader struct {
-	cpn string
-	rn  int
-}
-
 type FormatType int
 
 const (

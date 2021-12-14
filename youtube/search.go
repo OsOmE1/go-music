@@ -55,7 +55,7 @@ func (c Context) searchMusic(query string) ([]Result, error) {
 		Method: "POST",
 		URL:    reqUrl,
 		Header: map[string][]string{
-			"x-youtube-client-version": {"1.20211201.00.01"},
+			"x-youtube-client-version": {c.clientVer},
 			"Referer":                  {fmt.Sprintf("%ssearch?q=%v", musicSourceUrl, query)},
 		},
 		Body: io.NopCloser(reqBody),
