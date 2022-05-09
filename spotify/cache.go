@@ -3,17 +3,19 @@ package spotify
 import (
 	"encoding/gob"
 	"fmt"
-	"go-music/youtube"
+	"github.com/OsOmE1/go-music/youtube"
 	"os"
 	"path/filepath"
 	"sync"
 )
 
+// Cache stores a map of youtube music and spotify track matches
 type Cache struct {
 	stored map[string]youtube.Result
 	lock   *sync.Mutex
 }
 
+// LoadCache loads previous tracks and matches from a temporary directory
 func LoadCache() (Cache, error) {
 	dir, err := constructDataDirPath()
 	if err != nil {

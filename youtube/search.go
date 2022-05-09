@@ -22,6 +22,7 @@ const (
 	TypeTrack    YoutubeType = 2
 )
 
+// Result contains data from a youtube search or id query
 type Result struct {
 	Type       YoutubeType `json:"type"`
 	ID         string      `json:"id"`
@@ -39,6 +40,7 @@ type Channel struct {
 	Icon     string `json:"icon,omitempty"`
 }
 
+// Search uses a query to find a youtube video or track
 func (c Context) Search(query string) ([]Result, error) {
 	if c.Type == Youtube {
 		return c.searchYoutube(query)
@@ -71,7 +73,7 @@ func (c Context) searchMusic(query string) ([]Result, error) {
 		fmt.Println(string(resBody))
 		return nil, fmt.Errorf("unexpected status code: %v", res.StatusCode)
 	}
-	resBody := MusicSearchResponse{}
+	resBody := musicSearchResponse{}
 	if err = json.NewDecoder(res.Body).Decode(&resBody); err != nil {
 		return nil, err
 	}
@@ -99,7 +101,7 @@ func (c Context) searchYoutube(query string) ([]Result, error) {
 	}
 	c.requestNumber++
 
-	resBody := YoutubeSearchResponse{}
+	resBody := youtubeSearchResponse{}
 	if err = json.NewDecoder(res.Body).Decode(&resBody); err != nil {
 		return nil, err
 	}
@@ -122,7 +124,7 @@ func (c Context) searchYoutube(query string) ([]Result, error) {
 				}
 				result.Length, _ = strconv.Atoi(item.PlaylistRenderer.VideoCount)
 				for _, video := range item.PlaylistRenderer.Videos {
-					result.Children = append(result.Children, parseVideoRenderer(VideoRenderer{
+					result.Children = append(result.Children, parseVideoRenderer(videoRenderer{
 						VideoId: video.ChildVideoRenderer.VideoId,
 						Title: struct {
 							Runs []struct {
@@ -150,7 +152,7 @@ func (c Context) searchYoutube(query string) ([]Result, error) {
 	return results, nil
 }
 
-func parseMusicItemRenderer(v MusicItemRenderer) Result {
+func parseMusicItemRenderer(v musicItemRenderer) Result {
 	result := Result{
 		Type:  TypeTrack,
 		ID:    v.PlaylistItemData.VideoId,
@@ -198,7 +200,7 @@ func parseMusicItemRenderer(v MusicItemRenderer) Result {
 	return result
 }
 
-func parseVideoRenderer(v VideoRenderer) Result {
+func parseVideoRenderer(v videoRenderer) Result {
 	result := Result{
 		Type:  TypeVideo,
 		ID:    v.VideoId,

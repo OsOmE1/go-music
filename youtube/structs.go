@@ -1,6 +1,6 @@
 package youtube
 
-type StreamingData struct {
+type streamingData struct {
 	ExpiresInSeconds string `json:"expiresInSeconds"`
 	Formats          []struct {
 		Itag             int    `json:"itag"`
@@ -58,7 +58,7 @@ type StreamingData struct {
 	} `json:"adaptiveFormats"`
 }
 
-type YoutubePlayerResponse struct {
+type youtubePlayerResponse struct {
 	ResponseContext struct {
 		ServiceTrackingParams []struct {
 			Service string `json:"service"`
@@ -85,7 +85,7 @@ type YoutubePlayerResponse struct {
 		} `json:"miniplayer"`
 		ContextParams string `json:"contextParams"`
 	} `json:"playabilityStatus"`
-	StreamingData    StreamingData `json:"streamingData"`
+	StreamingData    streamingData `json:"streamingData"`
 	PlaybackTracking struct {
 		VideostatsPlaybackURL struct {
 			BaseURL string `json:"baseUrl"`
@@ -725,7 +725,7 @@ type YoutubePlayerResponse struct {
 	} `json:"frameworkUpdates"`
 }
 
-type VideoRenderer struct {
+type videoRenderer struct {
 	VideoId   string `json:"videoId"`
 	Thumbnail struct {
 		Thumbnails []struct {
@@ -1080,7 +1080,7 @@ type VideoRenderer struct {
 	} `json:"badges,omitempty"`
 }
 
-type YoutubeSearchResponse struct {
+type youtubeSearchResponse struct {
 	ResponseContext struct {
 		VisitorData           string `json:"visitorData"`
 		ServiceTrackingParams []struct {
@@ -1105,7 +1105,7 @@ type YoutubeSearchResponse struct {
 					Contents []struct {
 						ItemSectionRenderer struct {
 							Contents []struct {
-								VideoRenderer VideoRenderer `json:"videoRenderer,omitempty"`
+								VideoRenderer videoRenderer `json:"videoRenderer,omitempty"`
 								RadioRenderer struct {
 									PlaylistId string `json:"playlistId"`
 									Title      struct {
@@ -2182,7 +2182,7 @@ type YoutubeSearchResponse struct {
 	Refinements    []string `json:"refinements"`
 }
 
-type PlaylistAPIResponse struct {
+type playlistAPIResponse struct {
 	ResponseContext struct {
 		ServiceTrackingParams []struct {
 			Service string `json:"service"`
@@ -3368,7 +3368,7 @@ type PlaylistAPIResponse struct {
 	} `json:"sidebar"`
 }
 
-type VideoAPIResponse struct {
+type videoAPIResponse struct {
 	ResponseContext struct {
 		ServiceTrackingParams []struct {
 			Service string `json:"service"`
@@ -3396,7 +3396,7 @@ type VideoAPIResponse struct {
 		} `json:"miniplayer"`
 		ContextParams string `json:"contextParams"`
 	} `json:"playabilityStatus"`
-	StreamingData StreamingData `json:"streamingData"`
+	StreamingData streamingData `json:"streamingData"`
 	PlayerAds     []struct {
 		PlayerLegacyDesktopWatchAdsRenderer struct {
 			PlayerAdParams struct {
@@ -3799,7 +3799,7 @@ type VideoAPIResponse struct {
 	} `json:"frameworkUpdates"`
 }
 
-type YoutubeConfigSet struct {
+type youtubeConfigSet struct {
 	ClientCanaryState        string `json:"CLIENT_CANARY_STATE"`
 	Device                   string `json:"DEVICE"`
 	DisableYTImgDelayLoading bool   `json:"DISABLE_YT_IMG_DELAY_LOADING"`
@@ -4659,7 +4659,7 @@ type YoutubeConfigSet struct {
 	DisableWarmLoads   bool   `json:"DISABLE_WARM_LOADS"`
 }
 
-type MusicConfigSet struct {
+type musicConfigSet struct {
 	ClientCanaryState     string `json:"CLIENT_CANARY_STATE"`
 	Device                string `json:"DEVICE"`
 	ElementPoolDefaultCap int    `json:"ELEMENT_POOL_DEFAULT_CAP"`
@@ -4956,7 +4956,7 @@ type MusicConfigSet struct {
 	ActiveAccountCanUpload        bool   `json:"ACTIVE_ACCOUNT_CAN_UPLOAD"`
 }
 
-type PlayerQueryResponse struct {
+type playerQueryResponse struct {
 	ResponseContext struct {
 		VisitorData           string `json:"visitorData"`
 		ServiceTrackingParams []struct {
@@ -4984,7 +4984,7 @@ type PlayerQueryResponse struct {
 		} `json:"miniplayer"`
 		ContextParams string `json:"contextParams"`
 	} `json:"playabilityStatus"`
-	StreamingData StreamingData `json:"streamingData"`
+	StreamingData streamingData `json:"streamingData"`
 	PlayerAds     []struct {
 		PlayerLegacyDesktopWatchAdsRenderer struct {
 			PlayerAdParams struct {
@@ -5683,7 +5683,7 @@ type PlayerQueryResponse struct {
 	} `json:"adPlacements"`
 }
 
-type MusicItemRenderer struct {
+type musicItemRenderer struct {
 	TrackingParams string `json:"trackingParams"`
 	Thumbnail      struct {
 		MusicThumbnailRenderer struct {
@@ -6009,7 +6009,7 @@ type MusicItemRenderer struct {
 	} `json:"navigationEndpoint,omitempty"`
 }
 
-type MusicSearchResponse struct {
+type musicSearchResponse struct {
 	ResponseContext struct {
 		VisitorData           string `json:"visitorData"`
 		ServiceTrackingParams []struct {
@@ -6037,7 +6037,7 @@ type MusicSearchResponse struct {
 										} `json:"runs"`
 									} `json:"title"`
 									Contents []struct {
-										MusicResponsiveListItemRenderer MusicItemRenderer `json:"musicResponsiveListItemRenderer"`
+										MusicResponsiveListItemRenderer musicItemRenderer `json:"musicResponsiveListItemRenderer"`
 									} `json:"contents"`
 									TrackingParams string `json:"trackingParams"`
 									ShelfDivider   struct {
@@ -6102,4 +6102,396 @@ type MusicSearchResponse struct {
 		} `json:"tabbedSearchResultsRenderer"`
 	} `json:"contents"`
 	TrackingParams string `json:"trackingParams"`
+}
+
+type musicPlayerParseResponse struct {
+	ResponseContext struct {
+		ServiceTrackingParams []struct {
+			Service string `json:"service"`
+			Params  []struct {
+				Key   string `json:"key"`
+				Value string `json:"value"`
+			} `json:"params"`
+		} `json:"serviceTrackingParams"`
+	} `json:"responseContext"`
+	PlayabilityStatus struct {
+		Status               string `json:"status"`
+		PlayableInEmbed      bool   `json:"playableInEmbed"`
+		AudioOnlyPlayability struct {
+			AudioOnlyPlayabilityRenderer struct {
+				AudioOnlyPlayability  bool   `json:"audioOnlyPlayability"`
+				TrackingParams        string `json:"trackingParams"`
+				AudioOnlyAvailability string `json:"audioOnlyAvailability"`
+				PromoRenderer         struct {
+					MealbarPromoRenderer struct {
+						MessageTexts []struct {
+							Runs []struct {
+								Text string `json:"text"`
+							} `json:"runs"`
+						} `json:"messageTexts"`
+						ActionButton struct {
+							ButtonRenderer struct {
+								Size string `json:"size"`
+								Text struct {
+									Runs []struct {
+										Text string `json:"text"`
+									} `json:"runs"`
+								} `json:"text"`
+								ServiceEndpoint struct {
+									ClickTrackingParams string `json:"clickTrackingParams"`
+									FeedbackEndpoint    struct {
+										FeedbackToken string `json:"feedbackToken"`
+										UiActions     struct {
+											HideEnclosingContainer bool `json:"hideEnclosingContainer"`
+										} `json:"uiActions"`
+									} `json:"feedbackEndpoint"`
+								} `json:"serviceEndpoint"`
+								NavigationEndpoint struct {
+									ClickTrackingParams string `json:"clickTrackingParams"`
+									BrowseEndpoint      struct {
+										BrowseId string `json:"browseId"`
+										Params   string `json:"params"`
+									} `json:"browseEndpoint"`
+								} `json:"navigationEndpoint"`
+								TrackingParams string `json:"trackingParams"`
+							} `json:"buttonRenderer"`
+						} `json:"actionButton"`
+						DismissButton struct {
+							ButtonRenderer struct {
+								Size string `json:"size"`
+								Text struct {
+									Runs []struct {
+										Text string `json:"text"`
+									} `json:"runs"`
+								} `json:"text"`
+								ServiceEndpoint struct {
+									ClickTrackingParams string `json:"clickTrackingParams"`
+									FeedbackEndpoint    struct {
+										FeedbackToken string `json:"feedbackToken"`
+										UiActions     struct {
+											HideEnclosingContainer bool `json:"hideEnclosingContainer"`
+										} `json:"uiActions"`
+									} `json:"feedbackEndpoint"`
+								} `json:"serviceEndpoint"`
+								TrackingParams string `json:"trackingParams"`
+							} `json:"buttonRenderer"`
+						} `json:"dismissButton"`
+						TriggerCondition    string `json:"triggerCondition"`
+						Style               string `json:"style"`
+						TrackingParams      string `json:"trackingParams"`
+						ImpressionEndpoints []struct {
+							ClickTrackingParams string `json:"clickTrackingParams"`
+							FeedbackEndpoint    struct {
+								FeedbackToken string `json:"feedbackToken"`
+								UiActions     struct {
+									HideEnclosingContainer bool `json:"hideEnclosingContainer"`
+								} `json:"uiActions"`
+							} `json:"feedbackEndpoint"`
+						} `json:"impressionEndpoints"`
+						IsVisible    bool `json:"isVisible"`
+						MessageTitle struct {
+							Runs []struct {
+								Text string `json:"text"`
+							} `json:"runs"`
+						} `json:"messageTitle"`
+					} `json:"mealbarPromoRenderer"`
+				} `json:"promoRenderer"`
+			} `json:"audioOnlyPlayabilityRenderer"`
+		} `json:"audioOnlyPlayability"`
+		Miniplayer struct {
+			MiniplayerRenderer struct {
+				PlaybackMode string `json:"playbackMode"`
+			} `json:"miniplayerRenderer"`
+		} `json:"miniplayer"`
+		ContextParams string `json:"contextParams"`
+	} `json:"playabilityStatus"`
+	StreamingData struct {
+		ExpiresInSeconds string `json:"expiresInSeconds"`
+		Formats          []struct {
+			Itag             int    `json:"itag"`
+			MimeType         string `json:"mimeType"`
+			Bitrate          int    `json:"bitrate"`
+			Width            int    `json:"width"`
+			Height           int    `json:"height"`
+			LastModified     string `json:"lastModified"`
+			ContentLength    string `json:"contentLength"`
+			Quality          string `json:"quality"`
+			Fps              int    `json:"fps"`
+			QualityLabel     string `json:"qualityLabel"`
+			ProjectionType   string `json:"projectionType"`
+			AverageBitrate   int    `json:"averageBitrate"`
+			AudioQuality     string `json:"audioQuality"`
+			ApproxDurationMs string `json:"approxDurationMs"`
+			AudioSampleRate  string `json:"audioSampleRate"`
+			AudioChannels    int    `json:"audioChannels"`
+			SignatureCipher  string `json:"signatureCipher"`
+		} `json:"formats"`
+		AdaptiveFormats []struct {
+			Itag      int    `json:"itag"`
+			MimeType  string `json:"mimeType"`
+			Bitrate   int    `json:"bitrate"`
+			Width     int    `json:"width,omitempty"`
+			Height    int    `json:"height,omitempty"`
+			InitRange struct {
+				Start string `json:"start"`
+				End   string `json:"end"`
+			} `json:"initRange"`
+			IndexRange struct {
+				Start string `json:"start"`
+				End   string `json:"end"`
+			} `json:"indexRange"`
+			LastModified     string `json:"lastModified"`
+			ContentLength    string `json:"contentLength"`
+			Quality          string `json:"quality"`
+			Fps              int    `json:"fps,omitempty"`
+			QualityLabel     string `json:"qualityLabel,omitempty"`
+			ProjectionType   string `json:"projectionType"`
+			AverageBitrate   int    `json:"averageBitrate"`
+			ApproxDurationMs string `json:"approxDurationMs"`
+			SignatureCipher  string `json:"signatureCipher"`
+			ColorInfo        struct {
+				Primaries               string `json:"primaries"`
+				TransferCharacteristics string `json:"transferCharacteristics"`
+				MatrixCoefficients      string `json:"matrixCoefficients"`
+			} `json:"colorInfo,omitempty"`
+			HighReplication bool    `json:"highReplication,omitempty"`
+			AudioQuality    string  `json:"audioQuality,omitempty"`
+			AudioSampleRate string  `json:"audioSampleRate,omitempty"`
+			AudioChannels   int     `json:"audioChannels,omitempty"`
+			LoudnessDb      float64 `json:"loudnessDb,omitempty"`
+		} `json:"adaptiveFormats"`
+	} `json:"streamingData"`
+	PlayerAds []struct {
+		PlayerLegacyDesktopWatchAdsRenderer struct {
+			PlayerAdParams struct {
+				ShowContentThumbnail bool   `json:"showContentThumbnail"`
+				EnabledEngageTypes   string `json:"enabledEngageTypes"`
+			} `json:"playerAdParams"`
+			GutParams struct {
+				Tag string `json:"tag"`
+			} `json:"gutParams"`
+			ShowCompanion bool `json:"showCompanion"`
+			ShowInstream  bool `json:"showInstream"`
+			UseGut        bool `json:"useGut"`
+		} `json:"playerLegacyDesktopWatchAdsRenderer"`
+	} `json:"playerAds"`
+	PlaybackTracking struct {
+		VideostatsPlaybackUrl struct {
+			BaseUrl string `json:"baseUrl"`
+			Headers []struct {
+				HeaderType string `json:"headerType"`
+			} `json:"headers"`
+		} `json:"videostatsPlaybackUrl"`
+		VideostatsDelayplayUrl struct {
+			BaseUrl string `json:"baseUrl"`
+			Headers []struct {
+				HeaderType string `json:"headerType"`
+			} `json:"headers"`
+		} `json:"videostatsDelayplayUrl"`
+		VideostatsWatchtimeUrl struct {
+			BaseUrl string `json:"baseUrl"`
+			Headers []struct {
+				HeaderType string `json:"headerType"`
+			} `json:"headers"`
+		} `json:"videostatsWatchtimeUrl"`
+		PtrackingUrl struct {
+			BaseUrl string `json:"baseUrl"`
+			Headers []struct {
+				HeaderType string `json:"headerType"`
+			} `json:"headers"`
+		} `json:"ptrackingUrl"`
+		QoeUrl struct {
+			BaseUrl string `json:"baseUrl"`
+			Headers []struct {
+				HeaderType string `json:"headerType"`
+			} `json:"headers"`
+		} `json:"qoeUrl"`
+		AtrUrl struct {
+			BaseUrl                 string `json:"baseUrl"`
+			ElapsedMediaTimeSeconds int    `json:"elapsedMediaTimeSeconds"`
+			Headers                 []struct {
+				HeaderType string `json:"headerType"`
+			} `json:"headers"`
+		} `json:"atrUrl"`
+		VideostatsScheduledFlushWalltimeSeconds []int `json:"videostatsScheduledFlushWalltimeSeconds"`
+		VideostatsDefaultFlushIntervalSeconds   int   `json:"videostatsDefaultFlushIntervalSeconds"`
+	} `json:"playbackTracking"`
+	VideoDetails struct {
+		VideoId        string `json:"videoId"`
+		Title          string `json:"title"`
+		LengthSeconds  string `json:"lengthSeconds"`
+		ChannelId      string `json:"channelId"`
+		IsOwnerViewing bool   `json:"isOwnerViewing"`
+		IsCrawlable    bool   `json:"isCrawlable"`
+		Thumbnail      struct {
+			Thumbnails []struct {
+				Url    string `json:"url"`
+				Width  int    `json:"width"`
+				Height int    `json:"height"`
+			} `json:"thumbnails"`
+		} `json:"thumbnail"`
+		AllowRatings      bool   `json:"allowRatings"`
+		ViewCount         string `json:"viewCount"`
+		Author            string `json:"author"`
+		IsPrivate         bool   `json:"isPrivate"`
+		IsUnpluggedCorpus bool   `json:"isUnpluggedCorpus"`
+		MusicVideoType    string `json:"musicVideoType"`
+		IsLiveContent     bool   `json:"isLiveContent"`
+	} `json:"videoDetails"`
+	PlayerConfig struct {
+		AudioConfig struct {
+			LoudnessDb              float64 `json:"loudnessDb"`
+			PerceptualLoudnessDb    float64 `json:"perceptualLoudnessDb"`
+			EnablePerFormatLoudness bool    `json:"enablePerFormatLoudness"`
+		} `json:"audioConfig"`
+		StreamSelectionConfig struct {
+			MaxBitrate string `json:"maxBitrate"`
+		} `json:"streamSelectionConfig"`
+		MediaCommonConfig struct {
+			DynamicReadaheadConfig struct {
+				MaxReadAheadMediaTimeMs int `json:"maxReadAheadMediaTimeMs"`
+				MinReadAheadMediaTimeMs int `json:"minReadAheadMediaTimeMs"`
+				ReadAheadGrowthRateMs   int `json:"readAheadGrowthRateMs"`
+			} `json:"dynamicReadaheadConfig"`
+		} `json:"mediaCommonConfig"`
+		WebPlayerConfig struct {
+			WebPlayerActionsPorting struct {
+				SubscribeCommand struct {
+					ClickTrackingParams string `json:"clickTrackingParams"`
+					SubscribeEndpoint   struct {
+						ChannelIds []string `json:"channelIds"`
+						Params     string   `json:"params"`
+					} `json:"subscribeEndpoint"`
+				} `json:"subscribeCommand"`
+				UnsubscribeCommand struct {
+					ClickTrackingParams string `json:"clickTrackingParams"`
+					UnsubscribeEndpoint struct {
+						ChannelIds []string `json:"channelIds"`
+						Params     string   `json:"params"`
+					} `json:"unsubscribeEndpoint"`
+				} `json:"unsubscribeCommand"`
+				AddToWatchLaterCommand struct {
+					ClickTrackingParams  string `json:"clickTrackingParams"`
+					PlaylistEditEndpoint struct {
+						PlaylistId string `json:"playlistId"`
+						Actions    []struct {
+							AddedVideoId string `json:"addedVideoId"`
+							Action       string `json:"action"`
+						} `json:"actions"`
+					} `json:"playlistEditEndpoint"`
+				} `json:"addToWatchLaterCommand"`
+				RemoveFromWatchLaterCommand struct {
+					ClickTrackingParams  string `json:"clickTrackingParams"`
+					PlaylistEditEndpoint struct {
+						PlaylistId string `json:"playlistId"`
+						Actions    []struct {
+							Action         string `json:"action"`
+							RemovedVideoId string `json:"removedVideoId"`
+						} `json:"actions"`
+					} `json:"playlistEditEndpoint"`
+				} `json:"removeFromWatchLaterCommand"`
+			} `json:"webPlayerActionsPorting"`
+		} `json:"webPlayerConfig"`
+	} `json:"playerConfig"`
+	Storyboards struct {
+		PlayerStoryboardSpecRenderer struct {
+			Spec string `json:"spec"`
+		} `json:"playerStoryboardSpecRenderer"`
+	} `json:"storyboards"`
+	Microformat struct {
+		MicroformatDataRenderer struct {
+			UrlCanonical string `json:"urlCanonical"`
+			Title        string `json:"title"`
+			Description  string `json:"description"`
+			Thumbnail    struct {
+				Thumbnails []struct {
+					Url    string `json:"url"`
+					Width  int    `json:"width"`
+					Height int    `json:"height"`
+				} `json:"thumbnails"`
+			} `json:"thumbnail"`
+			SiteName           string   `json:"siteName"`
+			AppName            string   `json:"appName"`
+			AndroidPackage     string   `json:"androidPackage"`
+			IosAppStoreId      string   `json:"iosAppStoreId"`
+			IosAppArguments    string   `json:"iosAppArguments"`
+			OgType             string   `json:"ogType"`
+			UrlApplinksIos     string   `json:"urlApplinksIos"`
+			UrlApplinksAndroid string   `json:"urlApplinksAndroid"`
+			UrlTwitterIos      string   `json:"urlTwitterIos"`
+			UrlTwitterAndroid  string   `json:"urlTwitterAndroid"`
+			TwitterCardType    string   `json:"twitterCardType"`
+			TwitterSiteHandle  string   `json:"twitterSiteHandle"`
+			SchemaDotOrgType   string   `json:"schemaDotOrgType"`
+			Noindex            bool     `json:"noindex"`
+			Unlisted           bool     `json:"unlisted"`
+			Paid               bool     `json:"paid"`
+			FamilySafe         bool     `json:"familySafe"`
+			Tags               []string `json:"tags"`
+			AvailableCountries []string `json:"availableCountries"`
+			PageOwnerDetails   struct {
+				Name              string `json:"name"`
+				ExternalChannelId string `json:"externalChannelId"`
+				YoutubeProfileUrl string `json:"youtubeProfileUrl"`
+			} `json:"pageOwnerDetails"`
+			VideoDetails struct {
+				ExternalVideoId string `json:"externalVideoId"`
+				DurationSeconds string `json:"durationSeconds"`
+				DurationIso8601 string `json:"durationIso8601"`
+			} `json:"videoDetails"`
+			LinkAlternates []struct {
+				HrefUrl       string `json:"hrefUrl"`
+				Title         string `json:"title,omitempty"`
+				AlternateType string `json:"alternateType,omitempty"`
+			} `json:"linkAlternates"`
+			ViewCount   string `json:"viewCount"`
+			PublishDate string `json:"publishDate"`
+			Category    string `json:"category"`
+			UploadDate  string `json:"uploadDate"`
+		} `json:"microformatDataRenderer"`
+	} `json:"microformat"`
+	TrackingParams string `json:"trackingParams"`
+	Attestation    struct {
+		PlayerAttestationRenderer struct {
+			Challenge    string `json:"challenge"`
+			BotguardData struct {
+				Program            string `json:"program"`
+				InterpreterSafeUrl struct {
+					PrivateDoNotAccessOrElseTrustedResourceUrlWrappedValue string `json:"privateDoNotAccessOrElseTrustedResourceUrlWrappedValue"`
+				} `json:"interpreterSafeUrl"`
+				ServerEnvironment int `json:"serverEnvironment"`
+			} `json:"botguardData"`
+		} `json:"playerAttestationRenderer"`
+	} `json:"attestation"`
+	AdPlacements []struct {
+		AdPlacementRenderer struct {
+			Config struct {
+				AdPlacementConfig struct {
+					Kind         string `json:"kind"`
+					AdTimeOffset struct {
+						OffsetStartMilliseconds string `json:"offsetStartMilliseconds"`
+						OffsetEndMilliseconds   string `json:"offsetEndMilliseconds"`
+					} `json:"adTimeOffset"`
+					HideCueRangeMarker bool `json:"hideCueRangeMarker"`
+				} `json:"adPlacementConfig"`
+			} `json:"config"`
+			Renderer struct {
+				ClientForecastingAdRenderer struct {
+					ImpressionUrls []struct {
+						BaseUrl string `json:"baseUrl"`
+						Headers []struct {
+							HeaderType string `json:"headerType"`
+						} `json:"headers,omitempty"`
+					} `json:"impressionUrls"`
+				} `json:"clientForecastingAdRenderer,omitempty"`
+				AdBreakServiceRenderer struct {
+					PrefetchMilliseconds string `json:"prefetchMilliseconds"`
+					GetAdBreakUrl        string `json:"getAdBreakUrl"`
+				} `json:"adBreakServiceRenderer,omitempty"`
+			} `json:"renderer"`
+			AdSlotLoggingData struct {
+				SerializedSlotAdServingDataEntry string `json:"serializedSlotAdServingDataEntry"`
+			} `json:"adSlotLoggingData,omitempty"`
+		} `json:"adPlacementRenderer"`
+	} `json:"adPlacements"`
 }

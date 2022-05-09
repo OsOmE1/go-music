@@ -1,3 +1,4 @@
+// Package youtube provides methods and structs to facilitate communication with the YouTube internal API
 package youtube
 
 import (
@@ -18,11 +19,13 @@ import (
 
 type FormatType int
 
+//
 const (
 	AudioFormat FormatType = 0
 	VideoFormat FormatType = 1
 )
 
+// Format contains data used in the process of downloading content from youtube or youtube music
 type Format struct {
 	Type FormatType
 	// General
@@ -49,12 +52,14 @@ type Format struct {
 	signatureCipher string
 }
 
+// Chunk contains a section of data used in the YouTube data streaming protocol
 type Chunk struct {
 	Data []byte
 	High int
 	Low  int
 }
 
+// Formats retrieves information on all available video or audio formats
 func (c Context) Formats(result Result) ([]Format, error) {
 	switch result.Type {
 	case TypeVideo:
@@ -94,7 +99,7 @@ func (c Context) ytFormats(result Result) ([]Format, error) {
 	if res.StatusCode != http.StatusOK {
 		return nil, fmt.Errorf("unexpected status code: %v", res.StatusCode)
 	}
-	resBody := YoutubePlayerResponse{}
+	resBody := youtubePlayerResponse{}
 	if err = json.NewDecoder(res.Body).Decode(&resBody); err != nil {
 		return nil, err
 	}
@@ -122,7 +127,7 @@ func (c Context) musicFormats(result Result) ([]Format, error) {
 	if res.StatusCode != http.StatusOK {
 		return nil, fmt.Errorf("unexpected status code: %v", res.StatusCode)
 	}
-	resBody := PlayerQueryResponse{}
+	resBody := playerQueryResponse{}
 	if err = json.NewDecoder(res.Body).Decode(&resBody); err != nil {
 		return nil, err
 	}
@@ -130,7 +135,7 @@ func (c Context) musicFormats(result Result) ([]Format, error) {
 	return parseStreamingData(resBody.StreamingData), nil
 }
 
-func parseStreamingData(data StreamingData) []Format {
+func parseStreamingData(data streamingData) []Format {
 	var formats []Format
 	for _, format := range data.AdaptiveFormats {
 		formatType := AudioFormat
@@ -174,6 +179,7 @@ func parseStreamingData(data StreamingData) []Format {
 	return formats
 }
 
+// DownloadFormatChunk downloads a Chunk of data in the range low-high given a certain Format
 func (c Context) DownloadFormatChunk(format Format, low, high int) (Chunk, error) {
 	cipher := strings.Split(format.signatureCipher, "&")
 	downloadUrl := format.url
@@ -196,7 +202,7 @@ func (c Context) DownloadFormatChunk(format Format, low, high int) (Chunk, error
 	}
 	if sig != "" {
 		downloadUrl = fmt.Sprintf("%s&alr=yes&sig=%s&cpn=%s&cver=%s&rbuf=%d",
-			downloadUrl, ComputeSignature(sig), c.clientPlaybackNonce, c.clientVer, 0)
+			downloadUrl, computeSignature(sig), c.clientPlaybackNonce, c.clientVer, 0)
 	}
 	if downloadUrl == "" {
 		return Chunk{}, errors.New("no url found for format")
@@ -226,6 +232,7 @@ func (c Context) DownloadFormatChunk(format Format, low, high int) (Chunk, error
 	}, nil
 }
 
+// DownloadFormatSync synchronously downloads all chunks for a given Format in Chunks of size maxChunkSize
 func (c Context) DownloadFormatSync(format Format, maxChunkSize int) ([]byte, error) {
 	chunkSize := maxChunkSize
 	if chunkSize > format.ContentLength {
@@ -252,6 +259,7 @@ func (c Context) DownloadFormatSync(format Format, maxChunkSize int) ([]byte, er
 	return out, nil
 }
 
+// DownloadFormatParallel downloads all chunks for a given Format in Chunks of size maxChunkSize using multiple goroutines for improved performance
 func (c Context) DownloadFormatParallel(format Format, maxChunkSize int) ([]byte, error) {
 	chunkSize := maxChunkSize
 	if chunkSize > format.ContentLength {

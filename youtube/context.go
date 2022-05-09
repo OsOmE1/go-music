@@ -16,6 +16,7 @@ const (
 	ytSourceUrl    = "https://www.youtube.com/"
 )
 
+// Context contains a state used for interacting with the internal YouTube api simulating a normal browser
 type Context struct {
 	Type                ContextType
 	downloadCtxFmt      string
@@ -28,6 +29,7 @@ type Context struct {
 	requestNumber       int
 }
 
+// ContextType is used to specify which api to use either Youtube or YoutubeMusic
 type ContextType int
 
 const (
@@ -35,6 +37,7 @@ const (
 	YoutubeMusic ContextType = 1
 )
 
+// NewContext creates a new Context given a ContextType specifying what api to use
 func NewContext(contextType ContextType) (Context, error) {
 	ctx := Context{Type: contextType, clientPlaybackNonce: GenerateClientPlaybackNonce(), requestNumber: 1}
 	if contextType == YoutubeMusic {
@@ -58,7 +61,7 @@ func NewContext(contextType ContextType) (Context, error) {
 		if len(musicCfg) <= 1 {
 			return Context{}, errors.New("youtube music config set not found in response")
 		}
-		cfgSet := MusicConfigSet{}
+		cfgSet := musicConfigSet{}
 		if err = json.NewDecoder(bytes.NewReader(musicCfg[1])).Decode(&cfgSet); err != nil {
 			return Context{}, err
 		}
@@ -117,7 +120,7 @@ func NewContext(contextType ContextType) (Context, error) {
 		if len(musicCfg) <= 1 {
 			return Context{}, errors.New("youtube music config set not found in response")
 		}
-		cfgSet := YoutubeConfigSet{}
+		cfgSet := youtubeConfigSet{}
 		if err = json.NewDecoder(bytes.NewReader(musicCfg[1])).Decode(&cfgSet); err != nil {
 			return Context{}, err
 		}

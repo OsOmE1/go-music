@@ -4,7 +4,7 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
-	"go-music/youtube"
+	"github.com/OsOmE1/go-music/youtube"
 	"io/ioutil"
 	"net/http"
 	"net/url"
@@ -20,11 +20,13 @@ const (
 	lengthMargin int = 2
 )
 
+// Match contains a matching pair of a youtube.Result and a spotify Track
 type Match struct {
 	Spotify Track
 	YTMusic youtube.Result
 }
 
+// Track contains spotify track
 type Track struct {
 	ID      string
 	Name    string
@@ -32,13 +34,14 @@ type Track struct {
 	Length  int
 }
 
+// Playlist contains data on a specific spotify playlist
 type Playlist struct {
 	ID     string
 	Name   string
 	Tracks []Track
 }
 
-// Matches pass nil to disable cache usage
+// Matches pass nil pointer to disable cache usage
 func (p Playlist) Matches(cache *Cache, ctx youtube.Context) ([]Match, error) {
 	var results []Match
 	resultLock := sync.Mutex{}
